@@ -1,24 +1,70 @@
 import { ethers } from "hardhat";
 
-async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+async function main(){ 
 
-  const lockedAmount = ethers.utils.parseEther("0.001");
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+    // whiteList 
+    const whitelistContract = await ethers.getContractFactory("Whitelist");
 
-  await lock.deployed();
+    const deployedWhitelistContract = await whitelistContract.deploy(10);
 
-  console.log(
-    `Lock with ${ethers.utils.formatEther(lockedAmount)}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+    await deployedWhitelistContract.deployed();
+
+    console.log("Whitelist Contract Address:", deployedWhitelistContract.address);
+
+
+    
+    // NFT collection CryptoDevs
+const metadataURL="https://nft-collection-sneh1999.vercel.app/api/";
+
+const cryptoDevsContract = await ethers.getContractFactory("CryptoDevs")
+
+const deployedCryptoDevsContract = await cryptoDevsContract.deploy(metadataURL, deployedWhitelistContract.address)
+
+await deployedCryptoDevsContract.deployed();
+
+// print the address of the deployed contract
+console.log(
+  "Crypto Devs Contract NFT Address:",
+  deployedCryptoDevsContract.address
+);
+
+// launch ICO
+
+
+
+const cryptoDevsTokenContract = await ethers.getContractFactory(
+  "CryptoDevToken"
+);
+
+// deploy the contract
+const deployedCryptoDevsTokenContract = await cryptoDevsTokenContract.deploy(
+    deployedCryptoDevsContract.address
+);
+
+await deployedCryptoDevsTokenContract.deployed();
+// print the address of the deployed contract
+console.log(
+  "Crypto Devs Token Contract Address:",
+  deployedCryptoDevsTokenContract.address
+);
+
+// Exchange
+
+  const exchangeContract = await ethers.getContractFactory("Exchange");
+
+  // here we deploy the contract
+  const deployedExchangeContract = await exchangeContract.deploy(
+    deployedCryptoDevsTokenContract.address
   );
+  await deployedExchangeContract.deployed();
+
+  // print the address of the deployed contract
+  console.log("Exchange Contract Address:", deployedExchangeContract.address);
+
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main().then(()=>process.exit(0)). catch((error)=>{
+    console.error(error);
+    process.exit(1)
+})

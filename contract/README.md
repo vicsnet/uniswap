@@ -1,6 +1,12 @@
 # Sample Hardhat Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+Whitelist Contract Address: 0x469119640c963340Cca3d3f318AB1EB917Ca22CE
+
+Crypto Devs Contract NFT Address: 0xeE4C5FF6676B89aD6C5B4B458b865230E24d6F80 
+
+Crypto Devs Token Contract Address: 0x5c266b6C34b4D476Aa68C23De374DfC59DB58B36
+
+Exchange Contract Address: 0xACb5D7D8124bd3D0C46845339e87e580DA70B755
 
 Try running some of the following tasks:
 
