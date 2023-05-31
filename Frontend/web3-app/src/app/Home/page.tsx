@@ -23,14 +23,14 @@ export default function Home() {
   // loading is set to true when we are waiting for a transaction to get mined
 
   const [loading, setLoading] = useState(false);
-
+const [addr, setAddr] = useState();
   // numberOfWhitelisted tracks the number of addresses's whitelisted
  
   const [numberOfWhitelisted, setNumberOfWhitelisted] = useState(0);
 
   // Create a reference to the Web3 Modal (used for connecting to Metamask) which persists as long as the page is open
 
-  const web3ModalRef = useRef<HTMLInputElement>(null);
+  const web3ModalRef = useRef<any>();
 
     /**
    * Returns a Provider or Signer object representing the Ethereum RPC with or without the
@@ -50,13 +50,13 @@ export default function Home() {
         // Since we store `web3Modal` as a refernce we need to access the `current` value to get access to the underlying object
 
         const provider = await web3ModalRef.current.connect();
-        const web3Provider = new provider.Web3Provider(provider);
+        const web3Provider = new providers.Web3Provider(provider);
 
         // If user is not connected to the Goerli network, let them know and throw an error
 
         const {chainId} = await web3Provider.getNetwork();
 
-        if(chainId !== 5){
+        if(chainId !== 11155111){
             window.alert("Change the network to Sepolia");
             throw new Error("change network to Sepolia")
         }
@@ -142,6 +142,7 @@ export default function Home() {
       )
  // Get the address associated to the signer which is connected to  MetaMask
  const address = await signer.getAddress();
+ 
   // call the whitelistedAddresses from the contract
 
   const _joinedWhitelist = await whitelistContract.whitelistedAddresses(address);
@@ -237,6 +238,7 @@ export default function Home() {
 <h1 className={styles.title}>Welome to Crypto Devs!</h1>
 <div className={styles.description}>
 It&#39;s an NFT collection for developers in Crypto.
+
 </div>
 {renderButton()}
 </div>
@@ -245,7 +247,7 @@ It&#39;s an NFT collection for developers in Crypto.
         </div>
     </div>
     <footer className={styles.footer}>
-        Made with &#10084; by Crypto Devs
+        peace &#10084; web3
       </footer>
   </div>
   );
