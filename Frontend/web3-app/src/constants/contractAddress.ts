@@ -1,1 +1,1 @@
-export const whitelistAddress = 0x469119640c963340Cca3d3f318AB1EB917Ca22CE;
+export const whitelistAddress = "0x469119640c963340Cca3d3f318AB1EB917Ca22CE";
